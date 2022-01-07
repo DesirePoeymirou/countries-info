@@ -7,7 +7,7 @@ const SearchContext = createContext<SearchContextType>({
 
 const SearchContextProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [searchValue, setSearchValue] = useState<string>("");
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };

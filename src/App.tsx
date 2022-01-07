@@ -1,12 +1,14 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import "./App.css";
 import { useQuery, gql } from "@apollo/client";
 import Country from "./components/Country";
 import Filters from "./components/Filters";
 import { SearchContext } from "./context/SearchContext";
+import { useDebouncedValue } from "./hooks/useDebouncedValue";
 
 const App: React.FC = () => {
   const { searchValue } = useContext(SearchContext);
+  const debouncedValue = useDebouncedValue(searchValue, 400);
 
   const GET_COUNTRIES = gql`
     {
@@ -22,7 +24,7 @@ const App: React.FC = () => {
   if (error) return <p>Error loading countries.</p>;
 
   const filteredCountries = data.countries.filter((country: Country) =>
-    country.name.toLowerCase().includes(searchValue.toLowerCase())
+    country.name.toLowerCase().includes(debouncedValue.toLowerCase())
   );
 
   return (
