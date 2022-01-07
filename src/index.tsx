@@ -3,11 +3,8 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { SearchContextProvider } from "./context/SearchContext";
 
 const client = new ApolloClient({
   uri: "https://countries.trevorblades.com/",
@@ -16,9 +13,11 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
+    <SearchContextProvider>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </SearchContextProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
