@@ -1,71 +1,42 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import "./App.css";
-import { useQuery, gql } from "@apollo/client";
-import Country from "./components/Country";
+import { useQuery } from "@apollo/client";
 import Filters from "./components/Filters";
-import { SearchContext } from "./context/SearchContext";
-import { SelectContext } from "./context/SelectContext";
-import { useDebouncedValue } from "./hooks/useDebouncedValue";
-
-const GetCountriesQuery = gql`
-  query getCountries {
-    countries {
-      code
-      name
-      continent {
-        name
-      }
-    }
-  }
-`;
-
-const GetContinentsQuery = gql`
-  query getContinents {
-    continents {
-      code
-      name
-    }
-  }
-`;
+import Country from "./components/Country";
+import { GetCountries, GetContinents, GetCurrencies } from "./queries";
+import { SearchContext } from "./contexts/SearchContext";
 
 const App: React.FC = () => {
-  const { searchValue } = useContext(SearchContext);
-  const { selectValue } = useContext(SelectContext);
+  const { continent, currency } = useContext(SearchContext);
+  const countriesResult = useQuery(GetCountries({ continent, currency }));
+  const continentsResult = useQuery(GetContinents);
+  const currenciesResult = useQuery(GetCurrencies);
 
-  const debouncedValue = useDebouncedValue(searchValue, 400);
-
-  const countriesResult = useQuery(GetCountriesQuery);
-  const continentsResult = useQuery(GetContinentsQuery);
-  const errors = countriesResult.error || continentsResult.error;
-  const loading = countriesResult.loading || continentsResult.loading;
-
-  if (loading) return <p>Loading...</p>;
-
-  const { countries } = countriesResult.data;
-  const { continents } = continentsResult.data;
-
-  const countriesFilteredByContinent =
-    selectValue === "All" || selectValue === ""
-      ? countries
-      : countries.filter(
-          (country: Country) => country.continent.name === selectValue
-        );
-
-  const countriesFilteredBySearch = countriesFilteredByContinent.filter(
-    (country: Country) =>
-      country.name.toLowerCase().includes(debouncedValue.toLowerCase())
-  );
+  const loading =
+    countriesResult.loading ||
+    continentsResult.loading ||
+    currenciesResult.loading;
+  const errors =
+    countriesResult.error || continentsResult.error || currenciesResult.error;
 
   return (
     <div className="App">
-      {errors && <h3 style={{ color: "red" }}>{errors}</h3>}
-      <header className="App-header">
-        <Filters continents={continents} />
-      </header>
+      <div className="App-header">
+        <Filters
+          continents={continentsResult.data?.continents}
+          currencies={currenciesResult.data?.countries}
+          />
+          {errors && <h3 style={{ color: "red" }}>Error</h3>}
+          {loading && <h3>Loading...</h3>}
+      </div>
       <main>
-        {countriesFilteredBySearch.map((country: Country): any => (
-          <Country key={country.code} code={country.code} name={country.name} />
-        ))}
+        {countriesResult.data?.countries.length === 0 ? (
+          <h3>No countries found with those parameters.</h3>
+        ) : (
+          countriesResult.data?.countries.map((c: Country) => (
+            <Country key={c.code} code={c.code} name={c.name} />
+          ))
+        )}
       </main>
     </div>
   );

@@ -1,20 +1,24 @@
-type Country = {
-  code: string;
-  name: string;
-  continent: {name: string};
-};
-
 type Continent = {
   code: string;
   name: string;
 };
 
-type SearchContextType = {
-  searchValue: string,
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+type Country = {
+  code: string;
+  name: string;
+  continent: Continent;
+  currency: string;
 };
 
-type SelectContextType = {
-  selectValue: string,
-  handleSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void
+type SearchContextType = {
+  country: string,
+  continent: string,
+  currency: string,
+  setCountry: (country: string) => void;
+  setContinent: (continent: string) => void;
+  setCurrency: (currency: string) => void;
+};
+
+type Currency = {
+  name: string;
 };

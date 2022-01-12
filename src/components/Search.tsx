@@ -1,17 +1,19 @@
 import { useContext } from "react";
-import { SearchContext } from "../context/SearchContext";
+import { SearchContext } from "../contexts/SearchContext";
 
 const Search: React.FC = () => {
-  const { searchValue, handleChange } = useContext(SearchContext);
+  const { country, setCountry } = useContext(SearchContext);
 
   return (
-    <div>
+    <>
       <input
-        value={searchValue}
+        value={country}
         placeholder="Search"
-        onChange={handleChange}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setCountry(e.target.value)
+        }
       ></input>
-    </div>
+    </>
   );
 };
 
