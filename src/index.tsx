@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { SearchContextProvider } from "./contexts/SearchContext";
-
+import { BrowserRouter as Router } from "react-router-dom";
 const client = new ApolloClient({
   uri: "https://countries.trevorblades.com/",
   cache: new InMemoryCache(),
@@ -15,7 +15,9 @@ ReactDOM.render(
   <React.StrictMode>
     <SearchContextProvider>
       <ApolloProvider client={client}>
-        <App />
+        <Router>
+          <App />
+        </Router>
       </ApolloProvider>
     </SearchContextProvider>
   </React.StrictMode>,

@@ -48,15 +48,20 @@ export const GetCurrencies = gql`
   }
 `;
 
-/*
-{
-  countries(filter: {
-    currency: {
-     	 eq: "EUR"
+export const GetCountry = (code: string) =>
+  gql`
+  {
+    country(code: "${code}") {
+      code
+      name
+      currency
+      continent {
+        name
+      }
+      languages {
+        name
+      }
+      capital
     }
-  }) {
-    name
-    currency
   }
-}
-*/
+`;

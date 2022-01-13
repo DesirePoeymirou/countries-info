@@ -1,11 +1,13 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import "./App.css";
 import { useQuery } from "@apollo/client";
 import Filters from "./components/Filters";
+import Countries from "./components/Countries";
 import Country from "./components/Country";
 import { GetCountries, GetContinents, GetCurrencies } from "./queries";
 import { SearchContext } from "./contexts/SearchContext";
 import { useDebouncedValue } from "./hooks/useDebouncedValue";
+import { Routes, Route } from "react-router-dom";
 
 const App: React.FC = () => {
   const { country, continent, currency } = useContext(SearchContext);
@@ -38,14 +40,15 @@ const App: React.FC = () => {
         {loading && <h3>Loading...</h3>}
       </div>
       <main>
-        {!!countriesResult.data &&
-          (filteredCountries.length === 0 ? (
-            <h3>No countries found with those parameters.</h3>
-          ) : (
-            filteredCountries.map((c: Country) => (
-              <Country key={c.code} code={c.code} name={c.name} />
-            ))
-          ))}
+        <Routes>
+          <Route path=":countryCode" element={<Country />} />
+          {countriesResult.data && (
+            <Route
+              path="/"
+              element={<Countries countries={filteredCountries} />}
+            />
+          )}
+        </Routes>
       </main>
     </div>
   );
