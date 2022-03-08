@@ -1,5 +1,4 @@
 interface IProps {
-  // currencies: { __typename: string; currency: string }[];
   currencies: Currency[];
   selectedCurrency: string;
   handleCurrencySelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;

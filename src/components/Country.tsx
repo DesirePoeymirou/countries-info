@@ -10,11 +10,11 @@ const Country: React.FC = () => {
 
   return (
     <>
-      <div>{data.country.name}</div>
-      <div>{data.country.continent.name}</div>
-      <div>{data.country.currency}</div>
-      <div>{data.country.capital}</div>
-      <div>{data.country.name}</div>
+      <div>Name: {data.country.name}</div>
+      <div>Continent: {data.country.continent.name}</div>
+      <div>Capital: {data.country.capital}</div>
+      <div>Currencies: {data.country.currency}</div>
+      <div>Languages: </div>
       {data.country.languages.map(
         (lang: { __typename: string; name: string }) => (
           <div key={lang.name}>{lang.name}</div>
