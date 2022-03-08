@@ -1,0 +1,20 @@
+.country {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.title {
+  display: flex;
+  justify-content: flex-start;
+  color: pink;
+  flex-direction: column;
+  text-align: left;
+}
+
+.data {
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+  flex-direction: column;
+}
