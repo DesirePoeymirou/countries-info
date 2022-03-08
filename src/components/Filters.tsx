@@ -7,7 +7,7 @@ import styles from '../styles/Filters.module.css'
 
 interface IProps {
   continents: Continent[];
-  currencies: { __typename: string; currency: string }[];
+  currencies: Currency[];
 }
 
 const Filters: React.FC<IProps> = ({ continents, currencies }) => {

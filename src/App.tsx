@@ -29,12 +29,28 @@ const App: React.FC = () => {
       c.name.toLocaleLowerCase().includes(debouncedValue.toLowerCase())
   );
 
+  const currenciesObj: { [k: string]: string } = {};
+  currenciesResult.data?.countries.forEach((c: Country) => {
+    if (c.currency) {
+      const curr = c.currency.split(",");
+      curr.forEach((cu) => {
+        currenciesObj[cu] = cu;
+      });
+    }
+  });
+
+  console.log(currenciesObj)
+
+  const currencies: Currency[] = []
+
+  Object.entries(currenciesObj).forEach(([k,v]) => currencies.push({name: v}))
+
   return (
     <div className="App">
       <div className="App-header">
         <Filters
           continents={continentsResult.data?.continents}
-          currencies={currenciesResult.data?.countries}
+          currencies={currencies}
         />
         {errors && <h3 style={{ color: "red" }}>Error</h3>}
         {loading && <h3>Loading...</h3>}

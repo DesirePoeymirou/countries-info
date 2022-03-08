@@ -1,5 +1,6 @@
 interface IProps {
-  currencies: { __typename: string; currency: string }[];
+  // currencies: { __typename: string; currency: string }[];
+  currencies: Currency[];
   selectedCurrency: string;
   handleCurrencySelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
@@ -18,11 +19,11 @@ const SelectCurrency: React.FC<IProps> = ({
         <option value="All">All</option>
         {currencies.map(
           (
-            currency: { __typename: string; currency: string },
+            currency: Currency,
             index: number
           ) => (
-            <option key={currency.currency + index} value={currency.currency}>
-              {currency.currency}
+            <option key={index} value={currency.name}>
+              {currency.name}
             </option>
           )
         )}
